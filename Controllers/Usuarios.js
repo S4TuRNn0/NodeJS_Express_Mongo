@@ -2,13 +2,24 @@ const express = require('express');
 const Usuario = require('../Models/Usuario_Model');
 const ruta = express.Router();
 
+//Endpoint De Tipo GET Para Recurso_USUARIOS
 ruta.get('/', (req,res)=>{
-    res.json('Respueta a peticion GET de Usuarios ejecutandose correctamente...');
+    let resultado = listarUsuarioActivos();
+    resultado.then(usuarios =>{
+        res.json(usuarios)
+    }).catch(err => {
+        res.status(400).json(
+            {
+                err
+            }
+        )
+    })
 });
 
 module.exports = ruta;
 
 const Joi = require('@hapi/joi');
+const { func } = require('@hapi/joi');
 const schema = Joi.object({
     nombre: Joi.string()
     .min(3)
@@ -116,3 +127,9 @@ ruta.delete('/:email', (req,res) =>  {
     });    
 
 });
+
+//Funcion Asìncronica Para Listar Todos Los Usuarios Activos
+async function listarUsuarioActivos(){
+    let usuarios = await Usuario.find({"estado": true});
+    return usuarios;
+}
