@@ -1,5 +1,5 @@
-const Usuarios = require('./Controllers/Usuarios');
-const Cursos = require('./Controllers/Cursos');
+const usuarios = require('./Controllers/usuarios');
+const cursos = require('./Controllers/cursos');
 
 
 
@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //End Points (recursos)
-app.use('/api/Usuarios',Usuarios);
-app.use('/api/Cursos', Cursos);
+app.use('/api/usuarios', usuarios);
+app.use('/api/cursos', cursos);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
